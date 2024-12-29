@@ -1,0 +1,3 @@
+// Default to empty strings in development to prevent crashes
+export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://hlxkublnmgninloiesqz.supabase.co';
+export const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhseGt1YmxubWduaW5sb2llc3F6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzUzNzQwMzQsImV4cCI6MjA1MDk1MDAzNH0.hB-WXi1NPuv_-r5iKyeUA4JdAc4G1XE9fSYz9W1a0Mk';
