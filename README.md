@@ -134,4 +134,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-For support, email ieee@piet.co.in or join our Discord server.
+For support, email piet.ieeechapter@poornima.org or join our Discord server.
