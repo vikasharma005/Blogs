@@ -18,6 +18,88 @@ A modern technical blog platform built for IEEE Student Branch at Poornima Insti
 - 🎨 Dark/Light theme support
 - 📱 Responsive design
 
+## Database Structure
+
+### Profiles Table
+User profiles and authentication data
+```sql
+CREATE TABLE profiles (
+  id uuid PRIMARY KEY REFERENCES auth.users ON DELETE CASCADE,
+  full_name text,
+  avatar_url text,
+  points integer DEFAULT 0,
+  role text DEFAULT 'user',
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+```
+
+### Articles Table
+Blog posts and their metadata
+```sql
+CREATE TABLE articles (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  title text NOT NULL,
+  content text NOT NULL,
+  excerpt text,
+  author_id uuid REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  status text DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'archived')),
+  plagiarism_score float,
+  published_at timestamptz,
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+```
+
+### Article Tags Table
+Many-to-many relationship between articles and tags
+```sql
+CREATE TABLE article_tags (
+  article_id uuid REFERENCES articles(id) ON DELETE CASCADE,
+  tag text NOT NULL,
+  PRIMARY KEY (article_id, tag)
+);
+```
+
+### Badges Table
+Achievement badges that can be earned by users
+```sql
+CREATE TABLE badges (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  name text UNIQUE NOT NULL,
+  description text,
+  image_url text,
+  points integer DEFAULT 0,
+  criteria jsonb,
+  created_at timestamptz DEFAULT now()
+);
+```
+
+### User Badges Table
+Tracks which badges have been awarded to users
+```sql
+CREATE TABLE user_badges (
+  user_id uuid REFERENCES profiles(id) ON DELETE CASCADE,
+  badge_id uuid REFERENCES badges(id) ON DELETE CASCADE,
+  awarded_at timestamptz DEFAULT now(),
+  PRIMARY KEY (user_id, badge_id)
+);
+```
+
+### Plagiarism Reports Table
+Stores results of plagiarism checks for articles
+```sql
+CREATE TABLE plagiarism_reports (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  article_id uuid REFERENCES articles(id) ON DELETE CASCADE,
+  similarity_score float NOT NULL,
+  report_details jsonb,
+  status text CHECK (status IN ('pending', 'approved', 'rejected')) DEFAULT 'pending',
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+```
+
 ## Tech Stack
 
 - **Frontend**: Next.js 13 (App Router)
