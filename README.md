@@ -120,7 +120,7 @@ CREATE TABLE plagiarism_reports (
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/ieee-piet-blog.git
+   git clone https://github.com/ieee-piet/ieee-piet-blog.git
    cd ieee-piet-blog
    ```
 
